@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./css/layui/layui.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>layUI高级筛选</title>
+</head>
+
+<body>
+    <div class="layui-collapse" style="width: 99%; height: 100%; margin: 0 auto; background-color: white;">
+        <div class="layui-colla-item">
+
+            <div class="search-title">
+                <span>所有条件&nbsp;
+                    <i class="layui-icon  layui-icon-triangle-r">
+                        &nbsp;
+                    </i>
+                </span>
+                <ul id="searchResult">
+                    <li style="display: none;">
+                        <b id="typetext"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="companytext"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_1z"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_1y"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_3y"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_6y"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_jin"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_1n"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_2n"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_3n"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="yeji_zi"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                    <li style="display: none;">
+                        <b id="startext"></b>
+                        <i class="layui-icon layui-icon-close"></i>
+                    </li>
+                </ul>
+                <a style="position:absolute;right:100px;padding-right:20px;line-height:40px;border-right: 1px solid #e6e6e6;cursor: pointer;"
+                    class="" id="resetsearch">清空所有条件</a>
+                <a class="layui-icon layui-icon-up" id="btn_fold" onclick="foleType();">收起
+                </a>
+            </div>
+
+            <div id="search-content" class="layui-colla-content layui-show">
+                <div style="width: 86%; border-right: 1px solid #e6e6e6; float: left;">
+                    
+                    <div id="fundtype" class="search-name">
+                        <span class="search-name">基金类型：</span>
+                        <ul>
+                            <li class="active">不限</li>
+                            <li class="0">货币型</li>
+                            <li class="1">纯债型</li>
+                            <li class="2">一级债</li>
+                            <li class="3">二级债</li>
+                            <li class="4">股票型</li>
+                            <li class="5">混合型</li>
+                            <li class="6">封闭式</li>
+                            <li class="7">指数型</li>
+                            <li class="8">QDII</li>
+                        </ul>
+                        <div class="clearfloat"></div>
+                    </div>
+
+                    <div id="fundcompany" class="search-condititon">
+                        <span class="search-name">基金公司：</span>
+                        <div class="layui-tab layui-tab-card" style="width: 90%; margin-left: 90px;position: relative;">
+                            <ul id="fundcomptitle" class="layui-tab-title">
+                                <li class="layui-this" style="margin-left:100px;">热门</li>
+                            </ul>
+                            <a compid="0" class="layui-btn layui-btn-primary active companyname"
+                                style="position:absolute;top:0;left:0;widows: 95px;height:40px" 不限></a>
+                            <div id="fundcompaname" class="layui-tab-content fundcompany-content">
+                                <div id="fundcompan-hot" class="layui-tab-item layui-show">
+                                    <a class="companyname" compid="80000222">华夏</a>
+                                    <a class="companyname" compid="80000223">嘉实</a>
+                                    <a class="companyname" compid="80000229">易方达</a>
+                                    <a class="companyname" compid="80000220">南方</a>
+                                    <a class="companyname" compid="80048752">中银</a>
+                                    <a class="companyname" compid="80000248">广发</a>
+                                    <a class="companyname" compid="80064225">工银瑞信</a>
+                                    <a class="companyname" compid="80000226">博时</a>
+                                    <a class="companyname" compid="80000228">华安</a>
+                                    <a class="companyname last" compid="80053708">汇添富</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="fundyeji" class="search-condition">
+                        <span class="search-name">基金业绩</span>
+                        <div class="layui-tab layui-tab-card" lay-filter="jijinyeji"
+                            style="width: 90%;margin-left: 90px;position: relative;">
+                            <ul class="layui-tab-title">
+
+                                <li fundsign="yeji_1z" style="margin-left:100px;">近1周</li>
+                                <li fundsign="yeji_1z"">近1月/li>
+                        <li fundsign=" yeji_3y">近3月</li>
+                                <li fundsign="yeji_6y">近6月</li>
+                                <li fundsign="yeji_jin">今年以来</li>
+                                <li fundsign="yeji_1n">近1年</li>
+                                <li fundsign="yeji_2n">近2年</li>
+                                <li fundsign="yeji_3n">近3年</li>
+                                <li fundsign="yeji_zi">自定义</li>
+                            </ul>
+                            <a yejiid="0" class="layui-btn layui-btn-primary active fundyeji"
+                                style="position: absolute;top: 0;left: 0; width: 95px; height:40px ;">不限</a>
+                            <div class="layui-tab-content fundyeji-content">
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <a class="choicecom">不限</a>
+                                    <a>前10名</a>
+                                    <a>前20名</a>
+                                    <a>前50名</a>
+                                    <a>前100名</a>
+                                </div>
+                                <div class="layui-tab-item layui-form">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-lable">日期</label>
+                                        <div class="layui-input-inline" style="width: 90px;">
+                                            <input type="text" name="title" autocapitalize="off" class="layui-input">
+                                        </div>
+                                        <label class="layui-form-lable">至</label>
+                                        <div class="layui-form-inline" style="width: 90px;">
+                                            <input type="text" name="title" autocapitalize="off" class="layui-input">
+                                        </div>
+                                        <label class="layui-form-lable">&nbsp;&nbsp;</label>
+                                        <label class="layui-form-lable">收益率:</label>
+                                        <div class="layui-input-inline" style="width: 90px;">
+                                            <input type="text" name="title" autocapitalize="off" class="layui-input">
+                                        </div>
+                                        <label class="layui-form-lable">至</label>
+                                        <div class="layui-input-inline" style="width: 90px;">
+                                            <input type="text" name="title" autocapitalize="off" class="layui-input">
+                                        </div>
+                                        <label class="layui-form-lable"></label>
+                                        <button class="layui-btn">确定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="fundstat" class="search-condition">
+                        <span class="search-name">基金评级</span>
+                        <ul>
+                            <li class="active">不限</li>
+                            <li starid="1">★</li>
+                            <li starid="2">★★</li>
+                            <li starid="3">★★★</li>
+                            <li starid="4">★★★★</li>
+                            <li starid="5">★★★★★</li>
+                        </ul>
+                        <div class="clearfloat"></div>
+                    </div>
+
+                    <div style="width: 100%; padding-top: 10px;">
+                    <div style="width: 220px; margin: 0 auto;">
+                    <button id="savecondition" style="background-color: #5fb878; width: 100px;"
+                    class="layui-btn">
+                    保存</button>
+                    <button id="searchOk" style="width: 100px;" class="layui-btn layui-btn-warm">确定</button>
+                    </div>
+                    </div>
+                </div>
+                <div style="float: left; width: 13%; height: 100%;">
+                <dl style="width: 100%; padding-left: 4px;">
+                <dt style="text-align: center;">保存的搜索</dt>
+                <dd id="savedsearch"></dd>
+                </dl>
+                </div>
+                <div class="clearfloat"> </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file="../../../header_ck.jsp"%>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<base href="<%=basePath%>" />
+
+<title></title>
+<link rel="SHORTCUT ICON" href="<%=basePath%>favicon.ico" />
+<!--
+&lt;link rel="stylesheet" type="text/css" href="fundstyle.css"/&gt;
+-->
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3" />
+<meta http-equiv="description" content="This is my page" />
+
+  	<link rel="stylesheet" href="<%=basePath %>common/layuiadmin/layui/css/layui.css" type="text/css">
+  	<link rel="stylesheet" href="<%=basePath %>common/jajxjs/css/jxlayui.css" type="text/css">
+  	<script type="text/javascript" src="<%=basePath%>common/jquery-ui/js/jquery.min.js"></script>
+  	<script src="<%=basePath %>common/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="<%=basePath%>common/jajxjs/jxpubjs.js"></script>
+<%
+	String secucode = request.getParameter("secucode");
+	secucode = secucode == null ? "" : secucode;
+	out.print("<script language='javascript'>var secucode='" + secucode
+			+ "';</script>");
+%>
+<style type="text/css">
+	.last{
+		border-right:none !important;
+	}
+	
+	.search-title{
+		position: relative; 
+		height:40px;
+		border-bottom: 1px solid #e6e6e6;
+	}
+	.search-title span{
+		position:absolute;
+		left:16px; 
+		line-height:40px;
+	}
+	.search-title a{
+		color:#01AAED;
+	}
+	.search-title a:hover{
+		color:#5FB878;
+	}
+	.search-title ul{
+		position: absolute;
+		left:100px; 
+		height:30px; 
+		padding: 10px 0;
+	}
+	.search-title ul li{
+		font-size: 12px;
+		height: 18px;
+		line-height: 18px;
+		float: left;
+		margin-left: 10px;
+		border: 1px solid;
+		cursor: pointer;
+		border-radius: 10px;
+		padding-left: 6px;;
+	}
+	.search-title ul li i{
+		font-size: 12px;
+	}
+	#search-content{
+		border-top:0px;
+		padding-right:0;
+	}
+	#searchResult li:hover{
+		border: 1px solid #01AAED;
+		color: #01AAED;
+	}
+	#searchResult li b{
+		font-weight: normal;
+		padding-right: 2px;
+	}
+	
+	#btn_fold{
+		font-size:14px; 
+		position: absolute; 
+		cursor:pointer; 
+		right:30px;
+		line-height:40px;
+	}
+	
+	.search-name{
+		float:left;
+		display: block;
+		width:90px; 
+		line-height:40px;
+	}
+	#fundtype{
+		border-bottom: 1px solid #e6e6e6;
+		height: auto;
+		padding-bottom:10px;
+	}
+	#fundtype ul{
+		line-height: 50px;
+		padding-left:90px;
+	}
+	#fundtype ul li{
+		float: left;
+	    width: 95px;
+	    height: 40px;
+	    text-align: center;
+	    line-height: 40px;
+	    cursor: pointer;
+	    margin-right: 10px;
+	    margin-top: 4px;
+	    background-color: #eeeeee;
+	}
+	#fundtype ul li a{
+		cursor: pointer;
+	}
+	
+	#fundcompany{
+		border-bottom: 1px solid #e6e6e6;
+	}
+	
+	.fundcompany-content a{
+		padding: 0 20px;
+		cursor: pointer;
+		border-right: 1px solid #d4d4d4;		
+	}
+	
+	#fundyeji{
+		border-bottom: 1px solid #e6e6e6;
+	}
+	.fundyeji-content a{
+		padding: 0 30px;
+		cursor: pointer;
+	}
+	
+	#fundstar{
+		border-bottom: 1px solid #e6e6e6;
+		height: auto;
+		padding: 10px 0;
+	}
+	#fundstar ul{
+		line-height: 50px;
+		padding-left:90px;
+	}
+	#fundstar ul li{
+		float: left;
+	    width: 95px;
+	    height: 40px;
+	    text-align: center;
+	    line-height: 40px;
+	    cursor: pointer;
+	    margin-right: 10px;
+	    margin-top: 4px;
+	    background-color: #eeeeee;
+	}
+	#fundstar ul li a{
+		cursor: pointer;
+	}
+	
+	.layui-tab-title li{
+		min-width:10px;
+		padding: 0 10px;
+	}
+	
+	.layui-tab-content{
+		border-left: 1px solid #e6e6e6;
+		border-right: 1px solid #e6e6e6;
+		border-bottom: 1px solid #e6e6e6;
+	}
+	.layui-input{
+		width:90px;
+	}
+	.layui-input-inline{
+		width:60px;
+	}
+	.layui-form-label{
+		padding: 9px 0;
+		width:60px;
+		text-align: center;
+	}
+	.active{
+		background-color: #01AAED !important;
+		color: #fff !important;
+	}
+	.choice{
+		background-color: #01AAED !important;
+		color: #fff !important;
+	}
+	.choicecom{
+		color: #5FB878;
+		text-decoration: underline;
+	}
+	
+	.savedcond{
+		cursor:pointer;
+		line-height: 24px;
+	    padding: 0 4px 0 8px;
+	    margin: 5px 10px;
+	    display: block;
+	    background-color: #EEEEEE;
+	    color: #A6AAB8;
+	    border-radius: 12px;
+	    max-width: 100%;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    position: relative;
+	    text-align: center;
+	}
+	.savedcond:hover{
+		background-color: #aaa;
+   		color: #fff;
+	}
+	.savedcond i{
+		float: right;
+	}
+	.savedcond i:hover{
+		color: #FF5722;
+	}
+	
+	.clearfloat{clear:both;height:0;font-size: 1px;line-height: 0px;}
+</style>
+<script type="text/javascript">
+	layui.config({
+		base: 'common/layuiadmin/',
+	}).extend({
+		excel: 'modules/excel',
+		xlsx: 'modules/xlsx',
+		FileSaver: 'modules/FileSaver',
+		suggestbind : 'lib/suggestbind',
+		index : 'lib/index'
+	});
+</script>
+</head>
+<body>
+<div class="layui-collapse" style="width:99%;height:100%; margin:0 auto; background-color: white">
+  <div class="layui-colla-item">
+    <div class="search-title">
+    	<span>所有条件&nbsp;
+    	<i class="layui-icon layui-icon-triangle-r"></i>&nbsp;</span>
+    	<ul id="searchResult">
+    		<li style="display:none"><b id="typetext"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="companytext"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_1z"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_1y"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_3y"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_6y"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_jin"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_1n"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_2n"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_3n"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="yeji_zi"></b><i class="layui-icon layui-icon-close"></i></li>
+    		<li style="display:none"><b id="startext"></b><i class="layui-icon layui-icon-close"></i></li>
+    	</ul>
+    	<a style="position: absolute; right:100px;padding-right:20px;line-height: 40px;border-right:1px solid #e6e6e6;cursor:pointer;" class="" id="resetsearch"">清空所有条件</a>
+    	<a class="layui-icon layui-icon-up" id="btn_fold" onclick="foleType();"> 收起
+    	</a>
+    </div>
+    
+    <div id="search-content" class="layui-colla-content layui-show">
+    	<div style="width:86%;border-right:1px solid #e6e6e6;float:left;">
+			<div id="fundtype" class="search-condition">
+				<span class="search-name">基金类型：</span>
+				<ul>
+					<li class="active">不限</li>
+					<li typeid="0">货币型</li>
+					<li typeid="1">纯债型</li>
+					<li typeid="2">一级债</li>
+					<li typeid="3">二级债</li>
+					<li typeid="4">股票型</li>
+					<li typeid="5">混合型</li>
+					<li typeid="6">封闭式</li>
+					<li typeid="7">指数型</li>
+					<li typeid="8">QDII</li>
+				</ul>
+				<div class="clearfloat"></div>
+			</div>
+			
+			<div id="fundcompany" class="search-condition">
+				<span class="search-name">基金公司：</span>
+				<div class="layui-tab layui-tab-card" style="width:90%;margin-left:90px;position:relative;">
+				  <ul id="fundcomptitle" class="layui-tab-title">			   
+				    <li class="layui-this" style="margin-left:100px;">热门</li>
+				   
+				  </ul>
+				  <a compid="0" class="layui-btn layui-btn-primary active companyname" style="position:absolute;top:0;left:0;width:95px;height:40px;">不限</a>
+				  <div id="fundcompname" class="layui-tab-content fundcompany-content">
+				    <div id="fundcompany-hot" class="layui-tab-item layui-show">
+				    	<a class="companyname" compid="80000222">华夏</a>
+				    	<a class="companyname" compid="80000223">嘉实</a>
+				    	<a class="companyname" compid="80000229">易方达</a>
+				    	<a class="companyname" compid="80000220">南方</a>
+				    	<a class="companyname" compid="80048752">中银</a>
+				    	<a class="companyname" compid="80000248">广发</a>
+				    	<a class="companyname" compid="80064225">工银瑞信</a>
+				    	<a class="companyname" compid="80000226">博时</a>
+				    	<a class="companyname" compid="80000228">华安</a>
+				    	<a class="companyname last" compid="80053708">汇添富</a>
+				    </div>
+				    	
+				  </div>
+				</div>
+			</div>
+		
+			<div id="fundyeji" class="search-condition">
+				<span class="search-name">基金业绩：</span>
+				<div class="layui-tab layui-tab-card" lay-filter="jijinyeji" style="width:90%;margin-left:90px;position: relative;">
+				  <ul class="layui-tab-title">
+				  	
+				    <li fundsign="yeji_1z" style="margin-left:100px;">近1周</li>
+				    <li fundsign="yeji_1y">近1月</li>
+				    <li fundsign="yeji_3y">近3月</li>
+				    <li fundsign="yeji_6y">近6月</li>
+				    <li fundsign="yeji_jin">今年以来</li>
+				    <li fundsign="yeji_1n">近1年</li>
+				    <li fundsign="yeji_2n">近2年</li>
+				    <li fundsign="yeji_3n">近3年</li>
+				    <li fundsign="yeji_zi">自定义</li>
+				  </ul>
+				  <a yejiid="0" class="layui-btn layui-btn-primary active fundyeji" style="position:absolute;top:0;left:0;width:95px;height:40px;">不限</a>
+				  <div class="layui-tab-content fundyeji-content">
+				    <div class="layui-tab-item">
+						<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+					</div>
+				    <div class="layui-tab-item">
+				    	<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<a class="choicecom">不限</a>
+				    	<a>前10名</a>
+				    	<a>前20名</a>
+				    	<a>前50名</a>
+				    	<a>前100名</a>
+				    </div>
+				    <div class="layui-tab-item layui-form">
+				    	<div class="layui-form-item">
+						    <label class="layui-form-label">日期</label>
+						    <div class="layui-input-inline" style="width:90px;">
+						      <input type="text" name="title" autocomplete="off" class="layui-input">
+						    </div>
+						    <label class="layui-form-label">至</label>
+						    <div class="layui-input-inline" style="width:90px;">
+						      <input type="text" name="title" autocomplete="off" class="layui-input">
+						    </div>
+						    <label class="layui-form-label">&nbsp;&nbsp;</label>
+						    <label class="layui-form-label">收益率：</label>
+						    <div class="layui-input-inline" style="width:90px;">
+						      <input type="text" name="title" autocomplete="off" class="layui-input">
+						    </div>
+						    <label class="layui-form-label">至</label>
+						    <div class="layui-input-inline" style="width:90px;">
+						      <input type="text" name="title" autocomplete="off" class="layui-input">
+						    </div>
+						    <label class="layui-form-label"></label>
+						    <button class="layui-btn">确定</button>
+						  </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			
+			<div id="fundstar" class="search-condition">
+				<span class="search-name">基金评级：</span>
+				<ul>
+					<li class="active">不限</li>
+					<li starid="1">★</li>
+					<li starid="2">★★</li>
+					<li starid="3">★★★</li>
+					<li starid="4">★★★★</li>
+					<li starid="5">★★★★★</li>
+				</ul>
+				<div class="clearfloat"></div>
+			</div>
+			
+			<div style="width:100%;padding-top:10px;">
+			  		<div style="width:220px;margin:0 auto;">
+				  		<button id="savecondition" style="background-color: #5FB878;width:100px;" class="layui-btn ">保存</button>
+				  		<button id="searchOk" style="width:100px;" class="layui-btn layui-btn-warm">确定</button>
+			  		</div>
+			  </div>
+		</div>
+		<div style="float:left;width:13%;height:100%;">
+			<dl style="width:100%;padding-left:4px;">
+				<dt style="text-align: center">保存的搜索</dt>
+				<dd id="savedsearch">
+				</dd>
+			</dl>
+		</div>
+		<div class="clearfloat"></div>
+	</div>
+  </div>
+  
+</div>
+<script>
+	var keyObj = {'fundtype':'','fundtypeid':'','fundcompany':'','fundcompanyid':'','yeji_1z':'','yeji_1y':'','yeji_3y':'','yeji_6y':'','yeji_jin':'','yeji_1n':'','yeji_2n':'','yeji_3n':'','yeji_zi':'','fundstar':'','starid':''};
+	   layui.use(['suggestbind','layer', 'form', 'element','laydate'], function(){
+		  var layer = layui.layer
+		  ,form = layui.form
+		  ,jxtable = layui.jxtable
+		  ,element = layui.element
+		  var laydate = layui.laydate;		 
+		  window.$ = layui.jquery;
+			
+			element.on('tab(jijinyeji)', function(){
+			    var fundsign = $(this).attr("fundsign");
+			    var textname = $(this).text()+"：";
+			    $("#fundyeji .layui-tab-item").removeClass("layui show");
+			    
+			    fundyeji(fundsign,textname);
+			});
+ 			
+        });
+	
+	function fundyeji(fundsign,textname){
+		$("#fundyeji .layui-show a").click(function(){
+			var isChoose = $(this).hasClass("choicecom");
+			console.log(isChoose);
+			console.log($(this).index());
+			if($(this).index() !== 0){
+	    		if(!isChoose){
+		    		$(this).siblings().removeClass("choicecom");
+		    		$(".fundyeji").removeClass("active");
+					$(this).addClass("choicecom");
+					var arr =[];
+					arr.push($(this).text());
+					keyObj["'"+fundsign+"'"] = arr;
+						$("#"+fundsign).parent().css("display","block");
+						$("#"+fundsign).text(textname+keyObj["'"+fundsign+"'"]);
+						$("#"+fundsign).attr("title",keyObj["'"+fundsign+"'"]);
+				}else{
+					$(this).removeClass("choicecom");
+					$(this).parent().find("a").eq(0).addClass("choicecom");
+					$(".fundyeji").addClass("active");
+					keyObj["'"+fundsign+"'"] = '';
+					$("#"+fundsign).parent().css("display","none");
+				}
+	    	}else{
+	    		$(this).siblings().removeClass("choicecom");
+	    		$(this).addClass("choicecom");
+				keyObj["'"+fundsign+"'"] = '';
+				$("#"+fundsign).parent().css("display","none");
+	    	}
+	    });
+	}
+	var parentdata = window.parent.toIframe();
+	var pd = parentdata.split("-");
+	var uid = pd[0];
+	var moduleid = pd[1];
+	
+	//收起和展开
+	function foleType(){
+			if($("#search-content").hasClass("layui-show")){
+				$("#btn_fold").text(" 展开");
+				$("#btn_fold").removeClass("layui-icon layui-icon-up").addClass("layui-icon layui-icon-down");
+				$("#search-content").removeClass("layui-show")
+			}
+			else{
+				$("#btn_fold").text(" 收起");
+				$("#btn_fold").removeClass("layui-icon layui-icon-down").addClass("layui-icon layui-icon-up");
+				$("#search-content").addClass("layui-show")
+			}
+	}
+	
+	$(function(){
+		//选择基金类型
+		$("#fundtype ul li").click(function(){
+			var isChoose = $(this).hasClass("choice"); 
+			var chooseLen = null;
+			var $parent = $(this).parent();
+			
+			if($(this).index()!==0){
+				$(this).siblings().removeClass("active");
+				if(!isChoose){
+					$(this).addClass("choice");
+				}else{
+					$(this).removeClass("choice");
+				}
+				chooseLen = $parent.children('.choice').length;
+				if(chooseLen==0){
+					$("#typetext").parent().css("display","none");
+					$parent.children('li').eq(0).addClass('active');
+				}
+				var hasActive = null;
+				hasActive = $parent.children('.active').length>0;
+				if(hasActive){
+					keyObj['fundtype'] = '';
+					keyObj['fundtypeid'] = '';
+					$("#typetext").parent().css("display","none");
+				}else{
+					var arr =[];
+					var arr2 = [];
+					$("#typetext").parent().css("display","block");
+					$parent.children('.choice').each(function(index,item){
+						arr.push($(item).text());
+						arr2.push($(item).attr("typeid"));
+					});
+					keyObj['fundtype'] = arr;
+					keyObj['fundtype'] = arr.join(',');
+					keyObj['fundtypeid'] = arr2;
+					keyObj['fundtypeid'] = arr2.join(',');
+				}
+				
+				showText(keyObj.fundtype, "#typetext", "类型：");
+			}
+			else{
+				$(this).addClass("active");
+				$(this).siblings().removeClass("choice");
+				keyObj['fundtype'] = '';
+				keyObj['fundtypeid']='';
+				$("#typetext").parent().css("display","none");
+			}
+			
+		});
+		
+		//选择基金公司
+		function choosecompany(){
+			$("#fundcompany a").click(function(){
+				var isChoose = $(this).hasClass("choicecom"); 
+				var chooseLen = null;
+				var $parent = $("#fundcompany");
+				if($(this).attr("compid")!=='0'){
+					$("#fundcompany a").removeClass("active");
+					if(!isChoose){
+						$(this).addClass("choicecom");
+					}else{
+						$(this).removeClass("choicecom");
+					}
+					chooseLen = $("#fundcompany a.choicecom").length;
+					if(chooseLen==0){
+						$("#fundcompany a").eq(0).addClass('active');
+						$("#companytext").parent().css("display","none");
+					}
+					
+					var hasActive = null;
+					hasActive = $("#fundcompany a.active").length>0;
+					var arr =[];
+					var arr2 = [];
+					if(hasActive){
+						keyObj['fundcompany'] = '';
+						keyObj['fundcompanyid']='';
+						$("#companytext").parent().css("display","none");
+					}else{
+						$("#companytext").parent().css("display","block");
+						$("#fundcompany a.choicecom").each(function(index,item){
+							arr.push($(item).text());
+							arr2.push($(item).attr("compid"));
+						});
+						keyObj['fundcompany'] = arr;
+						keyObj['fundcompany'] = arr.join(',');
+						keyObj['fundcompanyid'] = arr2;
+						keyObj['fundcompanyid'] = arr2.join(',');
+					}
+					
+					showText(keyObj.fundcompany, "#companytext", "公司：");
+					
+				}else{
+					$("#fundcompany a").eq(0).addClass("active")
+					$("#fundcompany a").removeClass("choicecom");
+					keyObj['fundcompany'] = '';
+					keyObj['fundcompanyid']='';
+					$("#companytext").parent().css("display","none");
+				}
+					
+			});
+		}
+		
+		//选择基金评级
+		$("#fundstar ul li").click(function(){
+			var isChoose = $(this).hasClass("choice"); 
+			var chooseLen = null;
+			var $parent = $(this).parent();
+			
+			if($(this).index()!==0){
+				$(this).siblings().removeClass("active");
+				if(!isChoose){
+					$(this).addClass("choice");
+				}else{
+					$(this).removeClass("choice");
+				}
+				chooseLen = $parent.children('.choice').length;
+				if(chooseLen==0){
+					$("#startext").parent().css("display","none");
+					$parent.children('li').eq(0).addClass('active');
+				}
+				var hasActive = null;
+				hasActive = $parent.children('.active').length>0;
+				if(hasActive){
+					keyObj['fundstar'] = '';
+					keyObj['starid'] = '';
+					$("#startext").parent().css("display","none");
+				}else{
+					var arr =[];
+					var arr2 = [];
+					$("#startext").parent().css("display","block");
+					$parent.children('.choice').each(function(index,item){
+						arr.push($(item).text());
+						arr2.push($(item).attr("starid"));
+					});
+					keyObj['fundstar'] = arr;
+					keyObj['fundstar'] = arr.join(',');
+					keyObj['starid'] = arr2;
+					keyObj['starid'] = arr2.join(',');
+				}
+				
+				showText(keyObj.fundstar, "#startext", "评级：");
+			}
+			else{
+				$(this).addClass("active");
+				$(this).siblings().removeClass("choice");
+				keyObj['fundstar'] = '';
+				keyObj['starid']='';
+				$("#startext").parent().css("display","none");
+			}
+			
+		});
+		
+		//从数据库获取所有公司
+		$.ajax({
+			url: 'advancedsearch/getCompanyname.do',
+			dataType: 'json',
+			success: function(data){
+				var comp = data_letter_sort(data.data,"cn");
+				for (var key in comp) {
+					var title = '';
+					var str = '';
+					var str2 = '';
+				   	title = '<li>'+key+'</li>';
+				   	$("#fundcomptitle").append(title);
+				    for(var j = 0; j < comp[key].length; j++){
+				    	if(j == comp[key].length-1){
+				    		str += '<a class="last" compid="'+comp[key][j].cid+'">'+comp[key][j].cname+'</a>';
+				    	}else{
+				    		str += '<a compid="'+comp[key][j].cid+'">'+comp[key][j].cname+'</a>';
+				    	}
+				    }
+				    str2 = '<div id="fundcompany-'+key+'" class="layui-tab-item">'+str
+				    			+'</div>';
+				   	$("#fundcompname").append(str2);
+				}
+				
+				choosecompany();
+			}
+		});
+		
+		//获取json数组的长度
+		function getJsonLength(jsonData){
+		    var jsonLength = 0;
+		    for(var item in jsonData){
+		       jsonLength++;
+		    }
+		    return jsonLength;
+		}    
+		
+		function data_letter_sort (data, field) {
+		    var letter_reg = /^[A-Z]$/;
+		    var list = new Array();
+		    for (var i = 0; i < data.length; i++) {
+		        // 添加 # 分组，用来 存放 首字母不能 转为 大写英文的 数据
+		        list[''] = new Array();
+		        // 首字母 转 大写英文
+		        letter = (data[i][field]).substr(0, 1).toUpperCase();
+		        // 是否 大写 英文 字母
+		        if (!letter_reg.test(letter)) {
+		            letter = '#';
+		        }
+		        // 创建 字母 分组
+		        if (!(letter in list)) {
+		            list[letter] = new Array();
+		        }
+		        // 字母 分组 添加 数据
+		        list[letter].push(data[i]);
+		    }
+		    // 转换 格式 进行 排序；
+		    var resault = new Array();
+		    for (var key in list) {
+		        resault.push({
+		            letter: key,
+		            list: list[key]
+		        });
+		    }
+		    resault.sort(function (x, y) {
+		        return x.letter.charCodeAt(0) - y.letter.charCodeAt(0);
+		    });
+		    // # 号分组 放最后
+		    var last_arr = resault[0];
+		    resault.splice(0, 1);
+		    resault.push(last_arr);
+		 
+		    // 转换 数据 格式
+		    var json_sort = {}
+		    for (var i = 0; i < resault.length; i++) {
+		        json_sort[resault[i].letter] = resault[i].list;
+		    }
+		 
+		    return json_sort;
+		}
+
+	});
+	
+	//清空条件方法
+	function clearCondition(id){
+		if("typetext"==id){
+			$("#fundtype ul li").removeClass("choice");
+			$("#fundtype ul li").eq(0).addClass("active");
+			keyObj['fundtype']='';
+			keyObj['fundtypeid']='';
+		}else if("companytext"==id){
+			$("#fundcompany a").removeClass("choicecom");
+			$("#fundcompany a").eq(0).addClass("active")
+			keyObj['fundcompany']='';
+			keyObj['fundcompanyid']='';
+		}else if("startext"==id){
+			$("#fundstar ul li").removeClass("choice");
+			$("#fundstar ul li").eq(0).addClass("active")
+			keyObj['fundstar']='';
+			keyObj['starid']='';
+		}
+		
+	}
+	
+	//点击已选条件清除该条件
+	$("#searchResult li").each(function(){
+		$(this).click(function(){
+			var showId = $(this).children("b").attr("id");
+			$("#"+showId).parent().css("display","none");
+			clearCondition(showId);
+		})
+	});
+	
+	//清空所有条件
+	$("#resetsearch").click(function(){
+		$("#typetext").parent().css("display","none");
+		clearCondition("typetext");
+		$("#companytext").parent().css("display","none");
+		clearCondition("companytext");
+		$("#startext").parent().css("display","none");
+		clearCondition("startext");
+	});
+	
+	//条件超出两个显示省略号（光标放在上面显示完整条件 ）
+	function showText(value, id, titlename){
+		var arr = value.split(",");
+		if(arr.length<3){
+			$(id).text(titlename+value);
+		}else{
+			$(id).text(titlename+arr[0]+","+arr[1]+"···");
+		}
+		$(id).attr("title",value);	
+	}
+	
+	//保存条件
+	$("#savecondition").click( function(){
+		layer.confirm("是否保存搜索条件？", {
+			  btn: ['确定','取消'] //按钮
+			}, function(index){
+				  layer.prompt({
+					  formType: 0,
+					  value: '',
+					  title: '请输入保存名称',
+					}, function(value, index, elem){
+				           $.ajax({
+				        	url:'advancedsearch/saveCondition.do',
+				        	data:{
+				        		uid: uid,
+				        		moduleid: moduleid,
+				        		value: value,
+				        		keyObj: JSON.stringify(keyObj)
+				        	},
+				        	dataType: 'json',
+				        	success: function(data){
+				        		if(data.info == "success"){
+				        			layer.alert("保存成功！");
+				        			showSearchName();
+				        		}else{
+				        			layer.alert(data.info);
+				        		}
+				        	}
+				        });
+				        layer.close(index);
+					});
+			layer.close(index);
+		});
+	});
+	
+	//保存的搜索显示
+	showSearchName();
+	function showSearchName(){
+		$("#savedsearch").text("");
+		$.ajax({
+			url:'advancedsearch/getSavedData.do',
+			data: {
+				uid: uid,
+				moduleid: moduleid
+			},
+			dataType: 'json',
+			success: function(data){
+				for(var i =0; i < data.data.length; i++){
+					var str = '<a class="savedcond">'+data.data[i].searchname+'<i class="layui-icon layui-icon-close-fill"></i></a>';
+					$("#savedsearch").append(str);
+				}
+				saveSearch();
+				delCondition();
+			}
+		});
+	}
+	
+	//点击保存的搜索标签，回显相应的搜索条件
+	function saveSearch(){
+		$(".savedcond").click( function(){
+			$.ajax({
+				url:'advancedsearch/getSearchData.do',
+				data:{searchname: $(this).text()},
+				dataType: 'json',
+				success: function(data){
+					var searchdata = data.data[0].searchparams;
+					var typeid = searchdata['fundtypeid'].split(",");
+					var compid = searchdata['fundcompanyid'].split(",");
+					var starid = searchdata['starid'].split(",");
+					showCondition("#fundtype ul li", typeid, "typeid", "choice");
+					showCondition("#fundcompany a", compid, "compid", "choicecom");
+					showCondition("#fundstar ul li", starid, "starid", "choice");
+					keyObj = searchdata;
+					$("#typetext").parent().css("display","block");
+					$("#companytext").parent().css("display","block");
+					$("#startext").parent().css("display","block");
+					showText(keyObj.fundtype, "#typetext", "类型：");
+					showText(keyObj.fundcompany, "#companytext", "公司：");
+					showText(keyObj.fundstar, "#startext", "评级：");
+				}
+			});
+		});
+	}		
+	//回显条件方法
+	function showCondition(dom, keyArr, attr, style){
+		$(dom).siblings().removeClass(style);
+		$(dom).each(function(){
+			for(var i = 0; i< keyArr.length; i++){
+				if($(this).attr(attr)==keyArr[i]){
+					$(dom).eq(0).removeClass("active");
+					$(this).addClass(style);
+				}
+			}
+		});
+	}
+
+	function delCondition(){
+		$(".savedcond i").click( function(event){
+			event.stopPropagation();
+			var delname = $(this).parent().text();
+			$.ajax({
+				url: 'advancedsearch/delCondition.do',
+				data: {
+					uid: uid,
+					moduleid: moduleid,
+					value: delname
+				},
+				dataType: 'json',
+				success: function(data){
+					if(data.info == 'success'){
+						layer.alert("删除成功！");
+					}else{
+						layer.alert(data.info);
+					}
+					showSearchName();
+				}
+			});
+		});
+	}	
+	function toParent(){
+		return keyObj;
+	}
+	
+	$("#searchOk").click(function(){
+		console.log(keyObj);
+		window.parent.reloadByAdvance();
+	});
+	
+    </script>
+
+</body>
+</html>
